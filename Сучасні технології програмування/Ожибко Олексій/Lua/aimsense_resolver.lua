@@ -5,7 +5,7 @@ local ffi = require 'ffi'
 local inspect = require 'gamesense/inspect'
 local http = require 'gamesense/http'
 local function rgba(r, g, b, a, ...) return ("\a%x%x%x%x"):format(r, g, b, a) .. ... end
-local notify=(function()local b=vector;local c=function(d,b,c)return d+(b-d)*c end;local e=function()return b(client.screen_size())end;local f=function(d,...)local c={...}local c=table.concat(c,"")return b(renderer.measure_text(d,c))end;local g={notifications={bottom={}},max={bottom=6}}g.__index=g;g.new_bottom=function(h,i,j,...)table.insert(g.notifications.bottom,{started=false,instance=setmetatable({active=false,timeout=5,color={["r"]=h,["g"]=i,["b"]=j,a=0},x=e().x/2,y=e().y,text=...},g)})end;function g:handler()local d=0;local b=0;for d,b in pairs(g.notifications.bottom)do if not b.instance.active and b.started then table.remove(g.notifications.bottom,d)end end;for d=1,#g.notifications.bottom do if g.notifications.bottom[d].instance.active then b=b+1 end end;for c,e in pairs(g.notifications.bottom)do if c>g.max.bottom then return end;if e.instance.active then e.instance:render_bottom(d,b)d=d+1 end;if not e.started then e.instance:start()e.started=true end end end;function g:start()self.active=true;self.delay=globals.realtime()+self.timeout end;function g:get_text()local d=""for b,b in pairs(self.text)do local c=f("",b[1])local c,e,f=255,255,255;if b[2]then c,e,f=255, 170, 220 end;d=d..("\a%02x%02x%02x%02x%s"):format(c,e,f,self.color.a,b[1])end;return d end;local k=(function()local d={}d.rec=function(d,b,c,e,f,g,k,l,m)m=math.min(d/2,b/2,m)renderer.rectangle(d,b+m,c,e-m*2,f,g,k,l)renderer.rectangle(d+m,b,c-m*2,m,f,g,k,l)renderer.rectangle(d+m,b+e-m,c-m*2,m,f,g,k,l)renderer.circle(d+m,b+m,f,g,k,l,m,180,0.25)renderer.circle(d-m+c,b+m,f,g,k,l,m,90,0.25)renderer.circle(d-m+c,b-m+e,f,g,k,l,m,0,0.25)renderer.circle(d+m,b-m+e,f,g,k,l,m,-90,0.25)end;d.rec_outline=function(d,b,c,e,f,g,k,l,m,n)m=math.min(c/2,e/2,m)if m==1 then renderer.rectangle(d,b,c,n,f,g,k,l)renderer.rectangle(d,b+e-n,c,n,f,g,k,l)else renderer.rectangle(d+m,b,c-m*2,n,f,g,k,l)renderer.rectangle(d+m,b+e-n,c-m*2,n,f,g,k,l)renderer.rectangle(d,b+m,n,e-m*2,f,g,k,l)renderer.rectangle(d+c-n,b+m,n,e-m*2,f,g,k,l)renderer.circle_outline(d+m,b+m,f,g,k,l,m,180,0.25,n)renderer.circle_outline(d+m,b+e-m,f,g,k,l,m,90,0.25,n)renderer.circle_outline(d+c-m,b+m,f,g,k,l,m,-90,0.25,n)renderer.circle_outline(d+c-m,b+e-m,f,g,k,l,m,0,0.25,n)end end;d.glow_module_notify=function(b,c,e,f,g,k,l,m,n,o,p,q,r,s,s)local t=1;local u=1;if s then d.rec(b,c,e,f,l,m,n,o,k)end;for l=0,g do local m=o/2*(l/g)^3;d.rec_outline(b+(l-g-u)*t,c+(l-g-u)*t,e-(l-g-u)*t*2,f-(l-g-u)*t*2,p,q,r,m/1.5,k+t*(g-l+u),t)end end;return d end)()function g:render_bottom(g,l)local e=e()local m=6;local n="     "..self:get_text()local f=f("",n)local o=8;local p=5;local q=0+m+f.x;local q,r=q+p*2,12+10+1;local s,t=self.x-q/2,math.ceil(self.y-40+0.4)local u=globals.frametime()if globals.realtime()<self.delay then self.y=c(self.y,e.y-45-(l-g)*r*1.4,u*7)self.color.a=c(self.color.a,255,u*2)else self.y=c(self.y,self.y-10,u*15)self.color.a=c(self.color.a,0,u*20)if self.color.a<=1 then self.active=false end end;local c,e,g,l=self.color.r,self.color.g,self.color.b,self.color.a;k.glow_module_notify(s,t,q,r,1,o,25,25,25,l,255, 226, 255,l,true)local k=p+2;k=k+0+m;renderer.text(s+k,t+r/2-f.y/2,255,199,255,l,"b",nil,"о„Ѕ ")renderer.text(s+k,t+r/2-f.y/2   ,c,e,g,l,"",nil,n)end;client.set_event_callback("paint_ui",function()g:handler()end)return g end)()
+local notify=(function()local b=vector;local c=function(d,b,c)return d+(b-d)*c end;local e=function()return b(client.screen_size())end;local f=function(d,...)local c={...}local c=table.concat(c,"")return b(renderer.measure_text(d,c))end;local g={notifications={bottom={}},max={bottom=6}}g.__index=g;g.new_bottom=function(h,i,j,...)table.insert(g.notifications.bottom,{started=false,instance=setmetatable({active=false,timeout=5,color={["r"]=h,["g"]=i,["b"]=j,a=0},x=e().x/2,y=e().y,text=...},g)})end;function g:handler()local d=0;local b=0;for d,b in pairs(g.notifications.bottom)do if not b.instance.active and b.started then table.remove(g.notifications.bottom,d)end end;for d=1,#g.notifications.bottom do if g.notifications.bottom[d].instance.active then b=b+1 end end;for c,e in pairs(g.notifications.bottom)do if c>g.max.bottom then return end;if e.instance.active then e.instance:render_bottom(d,b)d=d+1 end;if not e.started then e.instance:start()e.started=true end end end;function g:start()self.active=true;self.delay=globals.realtime()+self.timeout end;function g:get_text()local d=""for b,b in pairs(self.text)do local c=f("",b[1])local c,e,f=255,255,255;if b[2]then c,e,f=255, 170, 220 end;d=d..("\a%02x%02x%02x%02x%s"):format(c,e,f,self.color.a,b[1])end;return d end;local k=(function()local d={}d.rec=function(d,b,c,e,f,g,k,l,m)m=math.min(d/2,b/2,m)renderer.rectangle(d,b+m,c,e-m*2,f,g,k,l)renderer.rectangle(d+m,b,c-m*2,m,f,g,k,l)renderer.rectangle(d+m,b+e-m,c-m*2,m,f,g,k,l)renderer.circle(d+m,b+m,f,g,k,l,m,180,0.25)renderer.circle(d-m+c,b+m,f,g,k,l,m,90,0.25)renderer.circle(d-m+c,b-m+e,f,g,k,l,m,0,0.25)renderer.circle(d+m,b-m+e,f,g,k,l,m,-90,0.25)end;d.rec_outline=function(d,b,c,e,f,g,k,l,m,n)m=math.min(c/2,e/2,m)if m==1 then renderer.rectangle(d,b,c,n,f,g,k,l)renderer.rectangle(d,b+e-n,c,n,f,g,k,l)else renderer.rectangle(d+m,b,c-m*2,n,f,g,k,l)renderer.rectangle(d+m,b+e-n,c-m*2,n,f,g,k,l)renderer.rectangle(d,b+m,n,e-m*2,f,g,k,l)renderer.rectangle(d+c-n,b+m,n,e-m*2,f,g,k,l)renderer.circle_outline(d+m,b+m,f,g,k,l,m,180,0.25,n)renderer.circle_outline(d+m,b+e-m,f,g,k,l,m,90,0.25,n)renderer.circle_outline(d+c-m,b+m,f,g,k,l,m,-90,0.25,n)renderer.circle_outline(d+c-m,b+e-m,f,g,k,l,m,0,0.25,n)end end;d.glow_module_notify=function(b,c,e,f,g,k,l,m,n,o,p,q,r,s,s)local t=1;local u=1;if s then d.rec(b,c,e,f,l,m,n,o,k)end;for l=0,g do local m=o/2*(l/g)^3;d.rec_outline(b+(l-g-u)*t,c+(l-g-u)*t,e-(l-g-u)*t*2,f-(l-g-u)*t*2,p,q,r,m/1.5,k+t*(g-l+u),t)end end;return d end)()function g:render_bottom(g,l)local e=e()local m=6;local n="     "..self:get_text()local f=f("",n)local o=8;local p=5;local q=0+m+f.x;local q,r=q+p*2,12+10+1;local s,t=self.x-q/2,math.ceil(self.y-40+0.4)local u=globals.frametime()if globals.realtime()<self.delay then self.y=c(self.y,e.y-45-(l-g)*r*1.4,u*7)self.color.a=c(self.color.a,255,u*2)else self.y=c(self.y,self.y-10,u*15)self.color.a=c(self.color.a,0,u*20)if self.color.a<=1 then self.active=false end end;local c,e,g,l=self.color.r,self.color.g,self.color.b,self.color.a;k.glow_module_notify(s,t,q,r,1,o,25,25,25,l,255, 226, 255,l,true)local k=p+2;k=k+0+m;renderer.text(s+k,t+r/2-f.y/2,255,199,255,l,"b",nil,"Ð¾â€žÐ… ")renderer.text(s+k,t+r/2-f.y/2   ,c,e,g,l,"",nil,n)end;client.set_event_callback("paint_ui",function()g:handler()end)return g end)()
 local w, h = client.screen_size()
 
 local dragging = (function() local a={}local b,c,d,e,f,g,h,i,j,k,l,m,n,o;local p={__index={drag=function(self,...)local q,r=self:get()local s,t=a.drag(q,r,...)if q~=s or r~=t then self:set(s,t)end;return s,t end,set=function(self,q,r)local j,k=client.screen_size()ui.set(self.x_reference,q/j*self.res)ui.set(self.y_reference,r/k*self.res)end,get=function(self)local j,k=client.screen_size()return ui.get(self.x_reference)/self.res*j,ui.get(self.y_reference)/self.res*k end}}function a.new(u,v,w,x)x=x or 10000;local j,k=client.screen_size()local y=ui.new_slider("LUA","A",u.." window position",0,x,v/j*x)local z=ui.new_slider("LUA","A","\n"..u.." window position y",0,x,w/k*x)ui.set_visible(y,false)ui.set_visible(z,false)return setmetatable({name=u,x_reference=y,y_reference=z,res=x},p)end;client.set_event_callback("paint",function()c=ui.is_menu_open()f,g=d,e;d,e=ui.mouse_position()i=h;h=client.key_state(0x01)==true;m=l;l={}o=n;n=false;j,k=client.screen_size()end)function a.drag(q,r,A,B,C,D,E)if c and i~=nil then if(not i or o)and h and f>q and g>r and f<q+A and g<r+B then n=true;q,r=q+d-f,r+e-g;if not D then q=math.max(0,math.min(j-A,q))r=math.max(0,math.min(k-B,r))end;if E then end end end;table.insert(l,{q,r,A,B})return q,r,A,B end;return a end)()
@@ -68,7 +68,7 @@ client.color_log(0, 150, 255, 'hook 5')
 client.color_log(0, 150, 255, 'hook 6')
 client.color_log(0, 150, 255, 'hook 7')
 client.color_log(0, 150, 255, 'other 9 hooks enabled')
-print("succesfully, welcome to sosysense govnosolver v14.88!")
+print("succesfully, welcome to AimSense resolver v14.88!")
 
 function Clamp(value, min, max) return math.min(math.max(value, min), max) end
 
@@ -108,32 +108,32 @@ end)
 
 local animstate_t = ffi.typeof 'struct { char pad0[0x18]; float anim_update_timer; char pad1[0xC]; float started_moving_time; float last_move_time; char pad2[0x10]; float last_lby_time; char pad3[0x8]; float run_amount; char pad4[0x10]; void* entity; void* active_weapon; void* last_active_weapon; float last_client_side_animation_update_time; int last_client_side_animation_update_framecount; float eye_timer; float eye_angles_y; float eye_angles_x; float goal_feet_yaw; float current_feet_yaw; float torso_yaw; float last_move_yaw; float lean_amount; char pad5[0x4]; float feet_cycle; float feet_yaw_rate; char pad6[0x4]; float duck_amount; float landing_duck_amount; char pad7[0x4]; float current_origin[3]; float last_origin[3]; float velocity_x; float velocity_y; char pad8[0x4]; float unknown_float1; char pad9[0x8]; float unknown_float2; float unknown_float3; float unknown; float m_velocity; float jump_fall_velocity; float clamped_velocity; float feet_speed_forwards_or_sideways; float feet_speed_unknown_forwards_or_sideways; float last_time_started_moving; float last_time_stopped_moving; bool on_ground; bool hit_in_ground_animation; char pad10[0x4]; float time_since_in_air; float last_origin_z; float head_from_ground_distance_standing; float stop_to_full_running_fraction; char pad11[0x4]; float magic_fraction; char pad12[0x3C]; float world_force; char pad13[0x1CA]; float min_yaw; float max_yaw; } **'
 local NativeGetClientEntity = VTable:Bind("client.dll", "VClientEntityList003", 3, "void*(__thiscall*)(void*, int)")
-local tab_selector = ui.new_combobox("LUA", "B", "\aFF0A0AFfо…€ \rSosySense Resolver crack by byte.tech", {"Home", "Resolver", "Misc"})
+local tab_selector = ui.new_combobox("LUA", "B", "\aFF0A0AFfÐ¾â€¦â‚¬ \rSAimsense Resolver crack by bibizyan", {"Home", "Resolver", "Misc"})
 local resolver_enabled = ui.new_checkbox("LUA", "B", "\aFF0A0AFf Enable settings")
 local resolver_mode = ui.new_combobox("LUA", "B", "Resolver Mode", {"Headshot Mode", "Aggressive Mode", "Duck Mode"})
 local color = ui.new_color_picker("LUA", "B", "debug color", 255,255,255)
 local multibox = ui.new_multiselect("LUA", "B", "Body Settings", {"hp lower than x value"})
-local health = ui.new_slider("LUA", "B", "о…ћ HP", 0, 100, 92, true)
+local health = ui.new_slider("LUA", "B", "Ð¾â€¦Ñ› HP", 0, 100, 92, true)
 local multibox2 = ui.new_multiselect("LUA", "B", "Head Settings", {"hp lower than x value", "after x misses"})
-local health2 = ui.new_slider("LUA", "B", "о…ћ HP", 0, 100, 92, true)
-local missed = ui.new_slider("LUA", "B", "о…ћ miss count", 0, 10, 2, true)
-local master_switch = ui.new_checkbox("LUA", "B", "\aFF0A0AFfо… Hitlogs")
-local dormant_beta = ui.new_checkbox("LUA", "B", "\aFF0A0AFfо…‹ Dormant Aimbot")
-local predict_command = ui.new_checkbox("LUA", "B", "\aFF0A0AFfо…€ Custom Predict")
+local health2 = ui.new_slider("LUA", "B", "Ð¾â€¦Ñ› HP", 0, 100, 92, true)
+local missed = ui.new_slider("LUA", "B", "Ð¾â€¦Ñ› miss count", 0, 10, 2, true)
+local master_switch = ui.new_checkbox("LUA", "B", "\aFF0A0AFfÐ¾â€¦Â˜ Hitlogs")
+local dormant_beta = ui.new_checkbox("LUA", "B", "\aFF0A0AFfÐ¾â€¦â€¹ Dormant Aimbot")
+local predict_command = ui.new_checkbox("LUA", "B", "\aFF0A0AFfÐ¾â€¦â‚¬ Custom Predict")
 local target_hitbox = ui.reference("RAGE", "Aimbot", "Target hitbox")
-local forcehead = ui.new_hotkey("LUA", "B", "\aFF0A0AFfо„“ Only Headshot")
+local forcehead = ui.new_hotkey("LUA", "B", "\aFF0A0AFfÐ¾â€žâ€œ Only Headshot")
 local defensive_check_slider1 = ui.new_slider("LUA", "B", "min tick", 1, 13, 4)
 local defensive_check_slider2 = ui.new_slider("LUA", "B", "max tick", 1, 13, 12)
 local prefer_safe_point = ui.reference("RAGE", "Aimbot", "Prefer safe point")
 local force_safe_point = ui.reference("RAGE", "Aimbot", "Force safe point")
-local reset = ui.new_button("LUA", "B", "о„ Reset Data", function() end)
-local clantag_enabled = ui.new_checkbox("LUA", "B", "\aFF0A0AFfо…љ Animated Clan Tag")
-local watermark = ui.new_checkbox("LUA", "B", "\aFF0A0AFfо„Ї Watermark/Board")
-local trashtalk = ui.new_checkbox("LUA", "B", "\aFF0A0AFfо„– Trashtalk/Deadtalk")
-local welcome = ui.new_label("LUA", "B", "\aFF0A0AFfо…‡ \rUpdated to SosySense GOVNOSOLVER V14.88")
-local welcome2 = ui.new_label("LUA", "B", "\aff0000FFо‡„ \rWelcome back, Dolbaeb")
-local welcome3 = ui.new_label("LUA", "B", "\aff0000FFо‡Ё \rStatus Server: Poshel naxyi cracko user")
-local secure = ui.new_checkbox("LUA", "B", "\aff0000FFо…± \rSecure Mode")
+local reset = ui.new_button("LUA", "B", "Ð¾â€žÂ˜ Reset Data", function() end)
+local clantag_enabled = ui.new_checkbox("LUA", "B", "\aFF0A0AFfÐ¾â€¦Ñ™ Animated Clan Tag")
+local watermark = ui.new_checkbox("LUA", "B", "\aFF0A0AFfÐ¾â€žÐ‡ Watermark/Board")
+local trashtalk = ui.new_checkbox("LUA", "B", "\aFF0A0AFfÐ¾â€žâ€“ Trashtalk/Deadtalk")
+local welcome = ui.new_label("LUA", "B", "\aFF0A0AFfÐ¾â€¦â€¡ \rUpdated to Aimsense RESOLVER V14.88")
+local welcome2 = ui.new_label("LUA", "B", "\aff0000FFÐ¾â€¡â€ž \rWelcome back, Dolbaeb")
+local welcome3 = ui.new_label("LUA", "B", "\aff0000FFÐ¾â€¡Ð \rStatus Server: Poshel naxyi cracko user")
+local secure = ui.new_checkbox("LUA", "B", "\aff0000FFÐ¾â€¦Â± \rSecure Mode")
 
 rgba_to_hex = function(b,c,d,e)
     return string.format('%02x%02x%02x%02x',b,c,d,e)
@@ -239,21 +239,18 @@ client.set_event_callback("paint", on_paint)
 client.color_log(255, 0, 0, "??????????????????????????????????????")
 --client.color_log(255, 0, 0, "?         .-""""""""""-.             ?")
 client.color_log(255, 0, 0, "?       .'  WARNING!    '.           ?")
-client.color_log(255, 0, 0, "?      /  ������ �������  \\          ?")
+client.color_log(255, 0, 0, "?      /  ÑÊÐÈÏÒ ÍÀÏÈÑÀÍ  \\          ?")
 client.color_log(255, 0, 0, "?     :   CHAT GPT   :        ?")
-client.color_log(255, 226, 243, "?      :  Created by byte.tech!  :         ?")
+client.color_log(255, 226, 243, "?      :  Created by bibizyan!  :         ?")
 client.color_log(255, 0, 0, "?       `._            _.'           ?")
 client.color_log(255, 0, 0, "?          `._    _.'               ?")
 --client.color_log(255, 0, 0, "?             `"'""'"`               ?")
-client.color_log(255, 226, 243, "?   SosySense  govnosolver v14.88 Cracked   ?")
-client.color_log(255, 226, 243, "?      Enhanced by byte Power!     ?")
-client.color_log(255, 0, 0, "??????????????????????????????????????")
 
 
 client.delay_call(0.5, function()
     notify.new_bottom(255, 0, 0, { 
-        { "[SosySense] ", true }, 
-        { "WARNING: ������ ������� CHAT GPT ", true }, 
+        { "[AimSense] ", true }, 
+        { "WARNING: ÑÊÐÈÏÒ ÍÀÏÈÑÀÍ CHAT GPT ", true }, 
         { "Ydali PC dayn", false }
     })
 end)
@@ -286,13 +283,13 @@ ui.set_callback(reset, function()
     ui.set(health, 50)
     ui.set(health2, 50)
     ui.set(missed, 0)
-    client.color_log(255,226,243, "[sosysense] Anti-Aim data reseted !")
-    notify.new_bottom(255, 226, 243, { { "[sosysense]", true }, { 'Anti-Aim data reseted' }, { " !", true } })
+    client.color_log(255,226,243, "[AimSense] Anti-Aim data reseted !")
+    notify.new_bottom(255, 226, 243, { { "[AimSense]", true }, { 'Anti-Aim data reseted' }, { " !", true } })
 end)
 
 local function updateSliderVisibility()
     local selected_tab = ui.get(tab_selector)
-    if selected_tab ~= "govnosolver" or not ui.get(resolver_enabled) then return end
+    if selected_tab ~= "resolver" or not ui.get(resolver_enabled) then return end
     local selected_items = ui.get(multibox)
     local show_health = false
     if selected_items then
@@ -901,14 +898,14 @@ local classes = {
                 ['prediction_error'] = function(type)
                     local type = type == 'unregistered shot' and (' [' .. type .. ']') or ''
                     print(string_format(
-                        'Missed %s shot at %s\'s %s(%s%%) due to prediction error%s [%s] [vel_modifier: %.1f | history(О”): %d | error: %s]', 
+                        'Missed %s shot at %s\'s %s(%s%%) due to prediction error%s [%s] [vel_modifier: %.1f | history(Ðžâ€): %d | error: %s]', 
                         shot_id, target_name, hgroup, hit_chance, type, net_state, entity_get_prop(me, 'm_flVelocityModifier') or 0, pre_data.history, table_concat(uflags)
                     ))
                 end,
         
                 ['spread'] = function()
                     print(string_format(
-                        'Missed %s shot at %s\'s %s(%s%%) due to spread ( dmg: %d | safety: %d | history(О”): %d | flags: %s )',
+                        'Missed %s shot at %s\'s %s(%s%%) due to spread ( dmg: %d | safety: %d | history(Ðžâ€): %d | flags: %s )',
                         shot_id, target_name, hgroup, hit_chance, spread_angle, 
                         pre_data.original.damage, pre_data.safety, pre_data.history, table_concat(pflags)
                     ))
@@ -917,11 +914,11 @@ local classes = {
                 ['unknown'] = function(type)
                     local _type = {
                         ['damage_rejected'] = 'damage rejection',
-                        ['unknown'] = string_format('unknown [angle: ?В° | ?В°]')
+                        ['unknown'] = string_format('unknown [angle: ?Ð’Â° | ?Ð’Â°]')
                     }
 
                     print(string_format(
-                        'Missed %s shot at %s\'s %s(%s%%) due to %s ( dmg: %d | safety: %d | history(О”): %d | flags: %s )',
+                        'Missed %s shot at %s\'s %s(%s%%) due to %s ( dmg: %d | safety: %d | history(Ðžâ€): %d | flags: %s )',
                         shot_id, target_name, hgroup, hit_chance, _type[type or 'unknown'],
                         pre_data.original.damage, pre_data.safety, pre_data.history, table_concat(pflags)
                     ))
@@ -982,9 +979,9 @@ local classes = {
                 return text
             end
 
-            notify.new_bottom(255, 226, 243, { { "", true }, { 'registered ' }, { shot_id }, { ' shot in ' }, { target_name }, {"'s "} , { hgroup }, { " for "}, { e.damage }, { " ( hitchance: "}, { hit_chance}, { " | safety: " }, { pre_data.safety }, { " | history(О”): "}, {  pre_data.history }, { " | flags: " }, { table_concat(pflags), _verification() }, { " )" } })
+            notify.new_bottom(255, 226, 243, { { "", true }, { 'registered ' }, { shot_id }, { ' shot in ' }, { target_name }, {"'s "} , { hgroup }, { " for "}, { e.damage }, { " ( hitchance: "}, { hit_chance}, { " | safety: " }, { pre_data.safety }, { " | history(Ðžâ€): "}, {  pre_data.history }, { " | flags: " }, { table_concat(pflags), _verification() }, { " )" } })
             print(string_format(
-                'Registered %s shot in %s\'s %s for %d damage ( hitchance: %d%% | safety: %s | history(О”): %d | flags: %s%s )',
+                'Registered %s shot in %s\'s %s for %d damage ( hitchance: %d%% | safety: %s | history(Ðžâ€): %d | flags: %s%s )',
                 shot_id, target_name, hgroup, e.damage,
                 hit_chance, pre_data.safety, pre_data.history, table_concat(pflags), _verification()
             ))
@@ -1103,37 +1100,37 @@ local dragging_indicators = dragging.new("indicators", 10, 10)
 local bool_items = {
     ["MinDMG"] = {
         references = {({ui_lib.reference("RAGE", "Aimbot", "Minimum damage override")})[1], ({ui_lib.reference("RAGE", "Aimbot", "Minimum damage override")})[2]},
-        text = "о‡‹ MD",
+        text = "Ð¾â€¡â€¹ MD",
         color = {255, 255, 255} -- White
     },
     ["Double tap"] = {
         references = {({ui_lib.reference("RAGE", "Aimbot", "Double tap")})[1], ({ui_lib.reference("RAGE", "Aimbot", "Double tap")})[2]},
-        text = "о…€ DT",
+        text = "Ð¾â€¦â‚¬ DT",
         color = {255, 255, 255} -- White
     },
     ["Ping"] = {
         references = {({ui_lib.reference("MISC", "Miscellaneous", "Ping spike")})[1], ({ui_lib.reference("MISC", "Miscellaneous", "Ping spike")})[2]},
-        text = "о‡© PING",
+        text = "Ð¾â€¡Â© PING",
         color = {126, 195, 12} -- Green
     },
     ["Freestanding"] = {
         references = {({ui_lib.reference("AA", "Anti-aimbot angles", "Freestanding")})[1], ({ui_lib.reference("AA", "Anti-aimbot angles", "Freestanding")})[2]},
-        text = "о…‹ FS",
+        text = "Ð¾â€¦â€¹ FS",
         color = {255, 255, 255} -- White
     },
     ["FakeDuck"] = {
         references = {({ui_lib.reference("RAGE", "Other", "Duck peek assist")})[1], ({ui_lib.reference("RAGE", "Other", "Duck peek assist")})[2]},
-        text = "о…Ґ DUCK",
+        text = "Ð¾â€¦Ò DUCK",
         color = {255, 255, 255} -- White
     },
     ["OnShot"] = {
         references = {({ui_lib.reference("AA", "Other", "On shot anti-aim")})[1], ({ui_lib.reference("AA", "Other", "On shot anti-aim")})[2]},
-        text = "о„Ґ OSAA",
+        text = "Ð¾â€žÒ OSAA",
         color = {255, 255, 255} -- White
     },
     ["PreferBody"] = {
         references = {({ui_lib.reference("RAGE", "Aimbot", "Force body aim")})[1], ({ui_lib.reference("RAGE", "Aimbot", "Force body aim")})[2]},
-        text = "о†Ѓ FORCE BODY",
+        text = "Ð¾â€ Ðƒ FORCE BODY",
         color = {255, 255, 0} -- White
     },
 }
@@ -1164,8 +1161,8 @@ local bar_min_width = 130
 
 local math_lerp = function(a, b, t) return a + (b - a) * t end
 
--- Р¦РІРµС‚ Double Tap
-local dt_r, dt_g, dt_b = 255, 255, 255 -- РЅР°С‡Р°Р»СЊРЅС‹Р№ С†РІРµС‚: Р±РµР»С‹Р№
+-- Ð Â¦Ð Ð†Ð ÂµÐ¡â€š Double Tap
+local dt_r, dt_g, dt_b = 255, 255, 255 -- Ð Ð…Ð Â°Ð¡â€¡Ð Â°Ð Â»Ð¡ÐŠÐ Ð…Ð¡â€¹Ð â„– Ð¡â€ Ð Ð†Ð ÂµÐ¡â€š: Ð Â±Ð ÂµÐ Â»Ð¡â€¹Ð â„–
 local dt_alpha = 0
 
 local custom_items = {
@@ -1760,8 +1757,8 @@ indicators:set("Built-in")
 
 local math_lerp = function(a, b, t) return a + (b - a) * t end
 
--- Р¦РІРµС‚ Double Tap
-local dt_r, dt_g, dt_b = 255, 255, 255 -- РЅР°С‡Р°Р»СЊРЅС‹Р№ С†РІРµС‚: Р±РµР»С‹Р№
+-- Ð Â¦Ð Ð†Ð ÂµÐ¡â€š Double Tap
+local dt_r, dt_g, dt_b = 255, 255, 255 -- Ð Ð…Ð Â°Ð¡â€¡Ð Â°Ð Â»Ð¡ÐŠÐ Ð…Ð¡â€¹Ð â„– Ð¡â€ Ð Ð†Ð ÂµÐ¡â€š: Ð Â±Ð ÂµÐ Â»Ð¡â€¹Ð â„–
 local dt_alpha = 0
 
 client_set_event_callback("paint", function()
@@ -1790,7 +1787,7 @@ client_set_event_callback("paint", function()
                         end
                     end
 
-                    -- РђРЅРёРјР°С†РёСЏ РїРѕСЏРІР»РµРЅРёСЏ/РёСЃС‡РµР·РЅРѕРІРµРЅРёСЏ
+                    -- Ð Ñ’Ð Ð…Ð Ñ‘Ð Ñ˜Ð Â°Ð¡â€ Ð Ñ‘Ð¡Ð Ð Ñ—Ð Ñ•Ð¡ÐÐ Ð†Ð Â»Ð ÂµÐ Ð…Ð Ñ‘Ð¡Ð/Ð Ñ‘Ð¡ÐƒÐ¡â€¡Ð ÂµÐ Â·Ð Ð…Ð Ñ•Ð Ð†Ð ÂµÐ Ð…Ð Ñ‘Ð¡Ð
                     local target_alpha = enabled and 255 or 0
                     item.alpha = item.alpha or 0
                     item.alpha = math_floor(math_lerp(item.alpha, target_alpha, 0.1))
@@ -1857,12 +1854,12 @@ client_set_event_callback("paint", function()
         for i=1, #items_drawn do
             local item = items_drawn[i]
 
-            -- РђРЅРёРјР°С†РёСЏ РїРѕСЏРІР»РµРЅРёСЏ/РёСЃС‡РµР·РЅРѕРІРµРЅРёСЏ РґР»СЏ РєР°Р¶РґРѕРіРѕ РёРЅРґРёРєР°С‚РѕСЂР°
+            -- Ð Ñ’Ð Ð…Ð Ñ‘Ð Ñ˜Ð Â°Ð¡â€ Ð Ñ‘Ð¡Ð Ð Ñ—Ð Ñ•Ð¡ÐÐ Ð†Ð Â»Ð ÂµÐ Ð…Ð Ñ‘Ð¡Ð/Ð Ñ‘Ð¡ÐƒÐ¡â€¡Ð ÂµÐ Â·Ð Ð…Ð Ñ•Ð Ð†Ð ÂµÐ Ð…Ð Ñ‘Ð¡Ð Ð Ò‘Ð Â»Ð¡Ð Ð Ñ”Ð Â°Ð Â¶Ð Ò‘Ð Ñ•Ð Ñ–Ð Ñ• Ð Ñ‘Ð Ð…Ð Ò‘Ð Ñ‘Ð Ñ”Ð Â°Ð¡â€šÐ Ñ•Ð¡Ð‚Ð Â°
             local should_show = item.get_should_draw and item:get_should_draw()
             local target_alpha = should_show and 255 or 0
             a = math_floor(math_lerp(a, target_alpha, 0.1))
 
-            -- Р›РѕРіРёРєР° РґР»СЏ Double Tap вЂ” РёР·РјРµРЅРµРЅРёРµ С†РІРµС‚Р°
+            -- Ð â€ºÐ Ñ•Ð Ñ–Ð Ñ‘Ð Ñ”Ð Â° Ð Ò‘Ð Â»Ð¡Ð Double Tap Ð²Ð‚â€ Ð Ñ‘Ð Â·Ð Ñ˜Ð ÂµÐ Ð…Ð ÂµÐ Ð…Ð Ñ‘Ð Âµ Ð¡â€ Ð Ð†Ð ÂµÐ¡â€šÐ Â°
             if item.name == "Double tap" then
                 local enabled = item.get_should_draw and item:get_should_draw()
 
@@ -1886,7 +1883,7 @@ client_set_event_callback("paint", function()
 end)
 
 -- ===============================================
--- Р’СЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹Рµ С„СѓРЅРєС†РёРё (РґРѕР±Р°РІСЊС‚Рµ РёС…, РµСЃР»Рё Сѓ РІР°СЃ РёС… РЅРµС‚)
+-- Ð â€™Ð¡ÐƒÐ Ñ—Ð Ñ•Ð Ñ˜Ð Ñ•Ð Ñ–Ð Â°Ð¡â€šÐ ÂµÐ Â»Ð¡ÐŠÐ Ð…Ð¡â€¹Ð Âµ Ð¡â€žÐ¡Ñ“Ð Ð…Ð Ñ”Ð¡â€ Ð Ñ‘Ð Ñ‘ (Ð Ò‘Ð Ñ•Ð Â±Ð Â°Ð Ð†Ð¡ÐŠÐ¡â€šÐ Âµ Ð Ñ‘Ð¡â€¦, Ð ÂµÐ¡ÐƒÐ Â»Ð Ñ‘ Ð¡Ñ“ Ð Ð†Ð Â°Ð¡Ðƒ Ð Ñ‘Ð¡â€¦ Ð Ð…Ð ÂµÐ¡â€š)
 -- ===============================================
 
 local screen_w, screen_h = client.screen_size()
@@ -1904,12 +1901,12 @@ local screen_margin_x = 12
 
 -- Items table defined globally
 local items = {
-    {text = "sosysense ~ govnoreso", icon = nil},
-    {text = "Build: Debug", icon = "о„і", r = 255, g = 60, b = 60},
-    {text = "User: " .. steam_name, icon = "о„Ѕ", r = 255, g = 60, b = 60},
-    {text = "", icon = "о…", r = 255, g = 60, b = 60}, -- FPS updated dynamically
-    {text = "", icon = "о‡©", r = 255, g = 60, b = 60}, -- Ping updated dynamically
-    {text = "", icon = "о„Ў", r = 255, g = 60, b = 60}  -- Time updated dynamically
+    {text = "AimSense ~ resolver", icon = nil},
+    {text = "Build: Debug", icon = "Ð¾â€žÑ–", r = 255, g = 60, b = 60},
+    {text = "User: " .. steam_name, icon = "Ð¾â€žÐ…", r = 255, g = 60, b = 60},
+    {text = "", icon = "Ð¾â€¦Â˜", r = 255, g = 60, b = 60}, -- FPS updated dynamically
+    {text = "", icon = "Ð¾â€¡Â©", r = 255, g = 60, b = 60}, -- Ping updated dynamically
+    {text = "", icon = "Ð¾â€žÐŽ", r = 255, g = 60, b = 60}  -- Time updated dynamically
 }
 
 function draw_rounded_rectangle(x, y, width, height, radius)
@@ -2228,29 +2225,29 @@ local notify = (function()
             end
         end
 
-        -- РќРћР’РђРЇ Р¤РЈРќРљР¦РРЇ Р”Р›РЇ РћРўР РРЎРћР’РљР РђРќРРњРР РћР’РђРќРќР«РҐ РЎРљРђРќ-Р›РРќРР™
+        -- Ð ÑœÐ Ñ›Ð â€™Ð Ñ’Ð Ð‡ Ð Â¤Ð ÐˆÐ ÑœÐ Ñ™Ð Â¦Ð Â˜Ð Ð‡ Ð â€Ð â€ºÐ Ð‡ Ð Ñ›Ð ÑžÐ  Ð Â˜Ð ÐŽÐ Ñ›Ð â€™Ð Ñ™Ð Â˜ Ð Ñ’Ð ÑœÐ Â˜Ð ÑšÐ Â˜Ð  Ð Ñ›Ð â€™Ð Ñ’Ð ÑœÐ ÑœÐ Â«Ð Ò Ð ÐŽÐ Ñ™Ð Ñ’Ð Ñœ-Ð â€ºÐ Â˜Ð ÑœÐ Â˜Ð â„¢
         function utils.draw_animated_scanlines(x, y, w, h, base_alpha, speed)
-            local line_height = 1 -- Р’С‹СЃРѕС‚Р° РѕРґРЅРѕР№ Р»РёРЅРёРё
-            local line_spacing = 3 -- Р Р°СЃСЃС‚РѕСЏРЅРёРµ РјРµР¶РґСѓ Р»РёРЅРёСЏРјРё
-            local line_color_r, line_color_g, line_color_b = 50, 255, 50 -- Р—РµР»РµРЅС‹Р№ С†РІРµС‚ РґР»СЏ "С…Р°РєРµСЂСЃРєРѕРіРѕ" СЃС‚РёР»СЏ
+            local line_height = 1 -- Ð â€™Ð¡â€¹Ð¡ÐƒÐ Ñ•Ð¡â€šÐ Â° Ð Ñ•Ð Ò‘Ð Ð…Ð Ñ•Ð â„– Ð Â»Ð Ñ‘Ð Ð…Ð Ñ‘Ð Ñ‘
+            local line_spacing = 3 -- Ð  Ð Â°Ð¡ÐƒÐ¡ÐƒÐ¡â€šÐ Ñ•Ð¡ÐÐ Ð…Ð Ñ‘Ð Âµ Ð Ñ˜Ð ÂµÐ Â¶Ð Ò‘Ð¡Ñ“ Ð Â»Ð Ñ‘Ð Ð…Ð Ñ‘Ð¡ÐÐ Ñ˜Ð Ñ‘
+            local line_color_r, line_color_g, line_color_b = 50, 255, 50 -- Ð â€”Ð ÂµÐ Â»Ð ÂµÐ Ð…Ð¡â€¹Ð â„– Ð¡â€ Ð Ð†Ð ÂµÐ¡â€š Ð Ò‘Ð Â»Ð¡Ð "Ð¡â€¦Ð Â°Ð Ñ”Ð ÂµÐ¡Ð‚Ð¡ÐƒÐ Ñ”Ð Ñ•Ð Ñ–Ð Ñ•" Ð¡ÐƒÐ¡â€šÐ Ñ‘Ð Â»Ð¡Ð
 
-            -- РЎРјРµС‰РµРЅРёРµ Р»РёРЅРёР№ СЃРѕ РІСЂРµРјРµРЅРµРј
+            -- Ð ÐŽÐ Ñ˜Ð ÂµÐ¡â€°Ð ÂµÐ Ð…Ð Ñ‘Ð Âµ Ð Â»Ð Ñ‘Ð Ð…Ð Ñ‘Ð â„– Ð¡ÐƒÐ Ñ• Ð Ð†Ð¡Ð‚Ð ÂµÐ Ñ˜Ð ÂµÐ Ð…Ð ÂµÐ Ñ˜
             local offset_y = (globals.realtime() * speed) % (line_height + line_spacing)
 
             for current_y_offset = 0, h + line_spacing, line_height + line_spacing do
                 local draw_y = y + current_y_offset - offset_y
                 
-                -- Р—Р°С†РёРєР»РёРІР°РµРј Р»РёРЅРёРё РІРЅСѓС‚СЂРё РІС‹СЃРѕС‚С‹ СѓРІРµРґРѕРјР»РµРЅРёСЏ
+                -- Ð â€”Ð Â°Ð¡â€ Ð Ñ‘Ð Ñ”Ð Â»Ð Ñ‘Ð Ð†Ð Â°Ð ÂµÐ Ñ˜ Ð Â»Ð Ñ‘Ð Ð…Ð Ñ‘Ð Ñ‘ Ð Ð†Ð Ð…Ð¡Ñ“Ð¡â€šÐ¡Ð‚Ð Ñ‘ Ð Ð†Ð¡â€¹Ð¡ÐƒÐ Ñ•Ð¡â€šÐ¡â€¹ Ð¡Ñ“Ð Ð†Ð ÂµÐ Ò‘Ð Ñ•Ð Ñ˜Ð Â»Ð ÂµÐ Ð…Ð Ñ‘Ð¡Ð
                 if draw_y < y then
                     draw_y = draw_y + h + line_spacing
                 elseif draw_y > y + h + line_spacing then
                     draw_y = draw_y - (h + line_spacing)
                 end
 
-                -- РЈР±РµРґРёРјСЃСЏ, С‡С‚Рѕ СЂРёСЃСѓРµРј С‚РѕР»СЊРєРѕ РІРЅСѓС‚СЂРё РіСЂР°РЅРёС† СѓРІРµРґРѕРјР»РµРЅРёСЏ
+                -- Ð ÐˆÐ Â±Ð ÂµÐ Ò‘Ð Ñ‘Ð Ñ˜Ð¡ÐƒÐ¡Ð, Ð¡â€¡Ð¡â€šÐ Ñ• Ð¡Ð‚Ð Ñ‘Ð¡ÐƒÐ¡Ñ“Ð ÂµÐ Ñ˜ Ð¡â€šÐ Ñ•Ð Â»Ð¡ÐŠÐ Ñ”Ð Ñ• Ð Ð†Ð Ð…Ð¡Ñ“Ð¡â€šÐ¡Ð‚Ð Ñ‘ Ð Ñ–Ð¡Ð‚Ð Â°Ð Ð…Ð Ñ‘Ð¡â€  Ð¡Ñ“Ð Ð†Ð ÂµÐ Ò‘Ð Ñ•Ð Ñ˜Ð Â»Ð ÂµÐ Ð…Ð Ñ‘Ð¡Ð
                 if draw_y + line_height > y and draw_y < y + h then
-                    -- РђР»СЊС„Р°-РєР°РЅР°Р» Р·Р°РІРёСЃРёС‚ РѕС‚ Р±Р°Р·РѕРІРѕР№ Р°Р»СЊС„С‹ СѓРІРµРґРѕРјР»РµРЅРёСЏ
-                    local line_alpha = math.min(base_alpha, 255) * 0.15 -- РћС‡РµРЅСЊ С‚РѕРЅРєРёР№ СЌС„С„РµРєС‚
+                    -- Ð Ñ’Ð Â»Ð¡ÐŠÐ¡â€žÐ Â°-Ð Ñ”Ð Â°Ð Ð…Ð Â°Ð Â» Ð Â·Ð Â°Ð Ð†Ð Ñ‘Ð¡ÐƒÐ Ñ‘Ð¡â€š Ð Ñ•Ð¡â€š Ð Â±Ð Â°Ð Â·Ð Ñ•Ð Ð†Ð Ñ•Ð â„– Ð Â°Ð Â»Ð¡ÐŠÐ¡â€žÐ¡â€¹ Ð¡Ñ“Ð Ð†Ð ÂµÐ Ò‘Ð Ñ•Ð Ñ˜Ð Â»Ð ÂµÐ Ð…Ð Ñ‘Ð¡Ð
+                    local line_alpha = math.min(base_alpha, 255) * 0.15 -- Ð Ñ›Ð¡â€¡Ð ÂµÐ Ð…Ð¡ÐŠ Ð¡â€šÐ Ñ•Ð Ð…Ð Ñ”Ð Ñ‘Ð â„– Ð¡ÐŒÐ¡â€žÐ¡â€žÐ ÂµÐ Ñ”Ð¡â€š
                     renderer.rectangle(x, draw_y, w, line_height, line_color_r, line_color_g, line_color_b, line_alpha)
                 end
             end
@@ -2262,7 +2259,7 @@ local notify = (function()
     function NotificationSystem:render_bottom(index, active_count)
         local screen = screen_size()
         local padding = 6
-        local text_render_offset_x = -5 -- РЎРјРµС‰РµРЅРёРµ С‚РµРєСЃС‚Р° РІР»РµРІРѕ РЅР° 5 РїРёРєСЃРµР»РµР№
+        local text_render_offset_x = -5 -- Ð ÐŽÐ Ñ˜Ð ÂµÐ¡â€°Ð ÂµÐ Ð…Ð Ñ‘Ð Âµ Ð¡â€šÐ ÂµÐ Ñ”Ð¡ÐƒÐ¡â€šÐ Â° Ð Ð†Ð Â»Ð ÂµÐ Ð†Ð Ñ• Ð Ð…Ð Â° 5 Ð Ñ—Ð Ñ‘Ð Ñ”Ð¡ÐƒÐ ÂµÐ Â»Ð ÂµÐ â„–
         local text = "      " .. self:get_text()
         local text_size = measure_text("", text)
         local rounding = 8
@@ -2288,17 +2285,17 @@ local notify = (function()
         end
         
         if self.color.a > 0 then
-            -- РћС‚СЂРёСЃРѕРІС‹РІР°РµРј С„РѕРЅ СѓРІРµРґРѕРјР»РµРЅРёСЏ
+            -- Ð Ñ›Ð¡â€šÐ¡Ð‚Ð Ñ‘Ð¡ÐƒÐ Ñ•Ð Ð†Ð¡â€¹Ð Ð†Ð Â°Ð ÂµÐ Ñ˜ Ð¡â€žÐ Ñ•Ð Ð… Ð¡Ñ“Ð Ð†Ð ÂµÐ Ò‘Ð Ñ•Ð Ñ˜Ð Â»Ð ÂµÐ Ð…Ð Ñ‘Ð¡Ð
             render_utils.glow_notification(
                 x, y, width, height, 15, rounding,
                 25, 25, 25, self.color.a, 
                 true
             )
 
-            -- РћРўР РРЎРћР’РљРђ РђРќРРњРР РћР’РђРќРќР«РҐ РЎРљРђРќ-Р›РРќРР™ РџРћР’Р•Р РҐ Р¤РћРќРђ
-            render_utils.draw_animated_scanlines(x, y, width, height, self.color.a, 20) -- РЎРєРѕСЂРѕСЃС‚СЊ 20, РјРѕР¶РЅРѕ РЅР°СЃС‚СЂРѕРёС‚СЊ
+            -- Ð Ñ›Ð ÑžÐ  Ð Â˜Ð ÐŽÐ Ñ›Ð â€™Ð Ñ™Ð Ñ’ Ð Ñ’Ð ÑœÐ Â˜Ð ÑšÐ Â˜Ð  Ð Ñ›Ð â€™Ð Ñ’Ð ÑœÐ ÑœÐ Â«Ð Ò Ð ÐŽÐ Ñ™Ð Ñ’Ð Ñœ-Ð â€ºÐ Â˜Ð ÑœÐ Â˜Ð â„¢ Ð ÑŸÐ Ñ›Ð â€™Ð â€¢Ð  Ð Ò Ð Â¤Ð Ñ›Ð ÑœÐ Ñ’
+            render_utils.draw_animated_scanlines(x, y, width, height, self.color.a, 20) -- Ð ÐŽÐ Ñ”Ð Ñ•Ð¡Ð‚Ð Ñ•Ð¡ÐƒÐ¡â€šÐ¡ÐŠ 20, Ð Ñ˜Ð Ñ•Ð Â¶Ð Ð…Ð Ñ• Ð Ð…Ð Â°Ð¡ÐƒÐ¡â€šÐ¡Ð‚Ð Ñ•Ð Ñ‘Ð¡â€šÐ¡ÐŠ
 
-            local text_x = x + spacing + 2 + padding + text_render_offset_x -- РџР РРњР•РќР•РќРћ РЎРњР•Р©Р•РќРР• РўР•РљРЎРўРђ
+            local text_x = x + spacing + 2 + padding + text_render_offset_x -- Ð ÑŸÐ  Ð Â˜Ð ÑšÐ â€¢Ð ÑœÐ â€¢Ð ÑœÐ Ñ› Ð ÐŽÐ ÑšÐ â€¢Ð Â©Ð â€¢Ð ÑœÐ Â˜Ð â€¢ Ð ÑžÐ â€¢Ð Ñ™Ð ÐŽÐ ÑžÐ Ñ’
             renderer.text(
                 text_x, y + height/2 - text_size.y/2,
                 self.color.r, self.color.g, self.color.b, self.color.a, 
@@ -2315,30 +2312,9 @@ local notify = (function()
 end)()
 
     client.delay_call(0.5, function()
-        notify.new_bottom(0, 180, 255, { { 'Cracked by byte.tech |' }, { " SosySense govnosolver (poshel naxyi)" } })
+        notify.new_bottom(0, 180, 255, { { 'Created by bibizyan |' }, { " Aimsense resolver" } })
 end)
 
-local sentences = {
-    "SosySense Lua fucked your AA into oblivion! AUTHOR CRACK https://discord.gg/k6gg6WHm",
-    "SosySense Lua owns your soul! AUTHOR CRACK https://discord.gg/k6gg6WHm",
-    "SosySense Lua script smashed your fake spins! AUTHOR CRACK https://discord.gg/k6gg6WHm",
-    "Feel the pain of SosySense Lua dumping you! https://discord.gg/k6gg6WHm",
-    "SosySense Lua resolver broke your neck in HVH! https://discord.gg/k6gg6WHm",
-    "SosySense Lua script fucked you up real good! https://discord.gg/k6gg6WHm",
-    "SosySense Lua resolver sent you to the grave! https://discord.gg/k6gg6WHm",
-    "SosySense Lua owns your pathetic spins! https://discord.gg/k6gg6WHm",
-    "SosySenseLua script made you cry in HVH! https://discord.gg/k6gg6WHm",
-    "SosySense Lua resolver crushed your dreams! https://discord.gg/k6gg6WHm",
-    "SosySense Lua fucked your AA to pieces! https://discord.gg/k6gg6WHm",
-    "SOSY SENSE AUTHOR CRACK https://discord.gg/k6gg6WHm",
-"SOSY SENSE AUTHOR CRACK https://discord.gg/k6gg6WHm",
-"SOSY SENSE AUTHOR CRACK https://discord.gg/k6gg6WHm",
-"SOSY SENSE AUTHOR CRACK https://discord.gg/k6gg6WHm",
-"SOSY SENSE AUTHOR CRACK https://discord.gg/k6gg6WHm",
-"SOSY SENSE AUTHOR CRACK https://discord.gg/k6gg6WHm",
-"SOSY SENSE AUTHOR CRACK https://discord.gg/k6gg6WHm",
-"SOSY SENSE AUTHOR CRACK https://discord.gg/k6gg6WHm",
-}
 
 local ui = {
     new_checkbox = ui.new_checkbox,
@@ -2379,9 +2355,9 @@ local function on_player_death(event)
         if victim == local_player and attacker ~= local_player then
             last_killer = attacker
             local deadtalk_messages = {
-                "say РЅРµ РїРѕРЅРёРјР°СЋ РєР°Рє РµРјСѓ РІРµР·РµС‚",
-                "say Р°Р° СЏ РїСЂРѕСЃС‚Рѕ Р·Р°Р±С‹Р» СЂРµР·РёРє СЂРµСЃРЅСѓС‚СЊ",
-                "say РЅСѓ С‰СЏ СЂРµСЃРЅСѓ Рё РїРёР·РґР° РµРјСѓ"
+                "say Ð Ð…Ð Âµ Ð Ñ—Ð Ñ•Ð Ð…Ð Ñ‘Ð Ñ˜Ð Â°Ð¡Ð‹ Ð Ñ”Ð Â°Ð Ñ” Ð ÂµÐ Ñ˜Ð¡Ñ“ Ð Ð†Ð ÂµÐ Â·Ð ÂµÐ¡â€š",
+                "say Ð Â°Ð Â° Ð¡Ð Ð Ñ—Ð¡Ð‚Ð Ñ•Ð¡ÐƒÐ¡â€šÐ Ñ• Ð Â·Ð Â°Ð Â±Ð¡â€¹Ð Â» Ð¡Ð‚Ð ÂµÐ Â·Ð Ñ‘Ð Ñ” Ð¡Ð‚Ð ÂµÐ¡ÐƒÐ Ð…Ð¡Ñ“Ð¡â€šÐ¡ÐŠ",
+                "say Ð Ð…Ð¡Ñ“ Ð¡â€°Ð¡Ð Ð¡Ð‚Ð ÂµÐ¡ÐƒÐ Ð…Ð¡Ñ“ Ð Ñ‘ Ð Ñ—Ð Ñ‘Ð Â·Ð Ò‘Ð Â° Ð ÂµÐ Ñ˜Ð¡Ñ“"
             }
             for _, msg in ipairs(deadtalk_messages) do
                 client.log(msg)
@@ -2391,7 +2367,7 @@ local function on_player_death(event)
     end
 
     if ui.get(trashtalk) and last_killer and victim == last_killer and victim ~= local_player then
-        local taunt = "say 1, РµР±Р°С‚СЊ СЃР»РёР»СЃСЏ"
+        local taunt = "say 1, Ð ÂµÐ Â±Ð Â°Ð¡â€šÐ¡ÐŠ Ð¡ÐƒÐ Â»Ð Ñ‘Ð Â»Ð¡ÐƒÐ¡Ð"
         client.log(taunt)
         client.exec(taunt)
         last_killer = nil
@@ -2594,3 +2570,4 @@ local function load_and_fade_image()
 end
 
 load_and_fade_image()
+
