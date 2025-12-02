@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechStore - Інтернет-магазин техніки</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <a href="/" class="logo">
+                    <div class="logo-icon"></div>
+                    <div class="logo-text">
+                        <h1>TechStore</h1>
+                        <p>Інтернет-магазин техніки</p>
+                    </div>
+                </a>
+            </div>
+        </header>
+
+        <div class="shop-container">
+            <!--Список товарів-->
+            <div class="products-section">
+                <h2 class="section-title">Наші товари</h2>
+                
+                <div class="search-filter">
+                    <div class="search-box">
+                        <div class="search-icon">🔍</div>
+                        <input type="text" id="searchInput" placeholder="Пошук товарів...">
+                    </div>
+                    
+                    <div class="categories">
+                        <button class="category-btn active" data-category="all">
+                            <span class="category-icon">📦</span> Всі товари
+                        </button>
+                        <button class="category-btn" data-category="phones">
+                            <span class="category-icon">📱</span> Телефони
+                        </button>
+                        <button class="category-btn" data-category="laptops">
+                            <span class="category-icon">💻</span> Ноутбуки
+                        </button>
+                        <button class="category-btn" data-category="accessories">
+                            <span class="category-icon">🎧</span> Аксесуари
+                        </button>
+                        <button class="category-btn" data-category="tablets">
+                            <span class="category-icon">📱</span> Планшети
+                        </button>
+                        <button class="category-btn" data-category="watches">
+                            <span class="category-icon">⌚</span> Годинники
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="products" class="products-grid">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Завантаження товарів...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Кошик -->
+            <div class="cart-section">
+                <div class="cart-container">
+                    <div class="cart-header">
+                        <h2>Кошик</h2>
+                        <span class="cart-count">(<span id="cart-count">0</span> товарів)</span>
+                    </div>
+                    
+                    <div class="cart-items">
+                        <div id="cart" class="cart">
+                            <div class="empty-cart">
+                                <div class="empty-cart-icon">🛒</div>
+                                <p>Ваш кошик порожній</p>
+                                <p style="font-size: 0.9rem; margin-top: 10px; opacity: 0.7;">
+                                    Додайте товари, щоб продовжити
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="cart-total">
+                        <div class="total-row">
+                            <span>Проміжний підсумок:</span>
+                            <span>$<span id="subtotal">0</span></span>
+                        </div>
+                        <div class="total-row">
+                            <span>Знижка:</span>
+                            <span>-$<span id="discount">0</span></span>
+                        </div>
+                        <div class="total-row total">
+                            <span>Загальна сума:</span>
+                            <span>$<span id="total">0</span></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Форма замовлення -->
+                <div class="order-form">
+                    <h3>Оформлення замовлення</h3>
+                    <form id="orderForm">
+                        <div class="form-group">
+                            <input type="text" name="name" placeholder="Ім'я *" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <input type="email" name="email" placeholder="Email *" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <input type="tel" name="phone" placeholder="Телефон *" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <textarea name="address" placeholder="Адреса доставки"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Спосіб оплати:</label>
+                            <div class="payment-methods">
+                                <div class="payment-method">
+                                    <input type="radio" id="cash" name="payment" value="cash" checked>
+                                    <label for="cash">💰 Готівка</label>
+                                </div>
+                                <div class="payment-method">
+                                    <input type="radio" id="card" name="payment" value="card">
+                                    <label for="card">💳 Карта</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" id="orderBtn" class="submit-order">
+                            Оформити замовлення
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>   TechStore</h3>
+                    <p>   Найкраща техніка за найкращими цінами</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Контакти</h3>
+                    <p>📧 info@techstore.ua</p>
+                    <p>📞 +380 12 345 6789</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Адмін панель</h3>
+                    <p><a href="/admin" style="color: #8d99ae; text-decoration: none;">→ Перейти до адмін панелі</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 TechStore. Всі права захищені.</p>
+                <p>Лабораторна робота з JavaScript</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
